@@ -1,0 +1,476 @@
+<mvc:View
+    controllerName="ux.devops.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+	 xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+>
+	<Shell id="shell">
+		<App id="app">
+			<pages>
+				<Page id="page" title="{i18n>title}" showHeader="false">
+					<content>
+					   <VBox>
+					   <!-- Dashboard  -->
+
+					   <HBox> 
+					   <!-- section 1 -->
+				
+					    <!-- <Label class="sapUiTinyMarginBegin" text="Logo"></Label> -->
+								<Image src="https://leehamnews.com/wp-content/uploads/2019/02/Collins-Aerospace.jpeg" width="200px" height="70px"/>
+  
+  <!-- <Label class="sapUiTinyMarginBegin" text="critical"></Label> -->
+  <VBox id="syscontainer" class="HeaderTile1 sapUiTinyMarginTop sapUiTinyMarginBeginEnd">
+											<Title
+												class="Hbold HeaderTileText1 sapUiMediumMarginBeginEnd sapUiTinyMarginTop"
+												text="Systems - Under Maintenance"></Title>
+											<Text id="sysMaintenance" class="HeaderTileStatusText1 sapUiTinyMarginBegin"
+												text="hcm,ECC"></Text>
+										</VBox>
+  <!-- <Label class="sapUiTinyMarginBegin" text="maintence"></Label> -->
+ <VBox id="cricticalcontainer" class="HeaderTile1 sapUiTinyMarginTop sapUiTinyMarginBeginEnd">
+											<Title
+												class="Hbold HeaderTileText1 sapUiMediumMarginBeginEnd sapUiTinyMarginTop"
+												text="Critical Systems"></Title>
+											<Text id="cricMaintenance" class="HeaderTileStatusText1 sapUiTinyMarginBegin"
+												text="hcm,PLM"></Text>
+										</VBox>
+
+  <!-- <Label class="sapUiTinyMarginBegin" text="Date"></Label> -->
+	<DateTimePicker
+			id="idDate"
+			
+			placeholder="Select Date range"
+			change="handleChange"
+			class="sapUiTinyMarginTop sapUiTinyMarginBeginEnd"/>
+
+					   </HBox>
+					    <HBox> 
+						 <!-- <Label text="Tabs"></Label> -->
+						 	<IconTabBar
+		id="idTabs"
+		expanded="{device>/isNoPhone}"
+		class="sapUiResponsiveContentPadding">
+		<items>
+			<IconTabFilter icon="sap-icon://bbyd-dashboard"  text="Dashboard" key="dashboard">
+			<!-- Dashboard section -->
+  <HBox>
+            
+              <!-- <Label text="Tiles Area"></Label> -->
+
+              <VBox id="TileContainer">
+												<HBox>
+
+                                                <!-- <Label text="First Row"></Label> -->
+
+<!--CRM TILE -->
+																<f:SimpleForm id="crmtile" class="equalColumns1"
+																	maxContainerCols="1" title="CRM" editable="false"
+																	layout="ResponsiveLayout">
+																	<VBox id="crmcontainer">
+
+																		<HBox>
+																			<Text class="sapUiMediumMarginTop sapUiSmallMarginBegin"
+																				text="Queue Depth"></Text>
+																			<NumericContent id="crmqd"
+																				class="sapUiSmallMarginBegin sapUiTinyMarginTop"
+																				value="{CRM>/d/WeightMeasure}"
+																				valueColor="Critical"							indicator="None" withMargin="false" state="Loaded"
+																				press="onOpenQueueDialog" />
+																		</HBox>
+
+																		<List id= "crmlist" class="sapUiTinyMarginBottom" >
+
+																			<StandardListItem id="crmsys" title="System Errors" 	type="Active" 
+					
+						                                                        press="onOpenSystemDialog"
+																				info="{CRM>/d/DimensionHeight}"
+																				infoState="Error"  />
+
+																			<StandardListItem id="crmapp" title="App Errors" 	type="Active" 
+					
+						                                                        press="onOpenAppDialog"
+																				info="{CRM>/d/DimensionWidth}"
+																				infoState="Error" />
+
+																			<StandardListItem title="No of Threads"
+																				info="{CRM>/d/DimensionDepth}"
+																				infoState="None" />
+																		
+																		</List>
+
+																		<HBox>
+																			<Label class="sapUiTinyMarginBegin" text="Updated at:"></Label>
+																			<Text
+																				text="{
+								                                                    path: 'CRM>/d/LastModified',
+							                                                    formatter: '.Formatter.formatJSONDate'}"></Text>
+                                                                        </HBox>
+																	</VBox>
+																</f:SimpleForm>
+
+																<!-- ECC -->
+																<f:SimpleForm id="ecctile" class="equalColumns2"
+																	maxContainerCols="1" title="ECC" editable="false"
+																	layout="ResponsiveLayout">
+																	<VBox id="ecccontainer">
+																		<HBox>
+																			<Text class="sapUiMediumMarginTop sapUiSmallMarginBegin"
+																				text="Queue Depth"></Text>
+																			<NumericContent id="QdepthECC"
+																				class="Hbold sapUiMediumMarginBegin sapUiTinyMarginTop"
+																				value="{ECC>/d/WeightMeasure}"
+																				valueColor="Critical"
+																				indicator="None" withMargin="false" state="Loaded"
+																				press="onOpenECCQueueDialog"/>
+																		</HBox>
+
+																		<List class="sapUiTinyMarginBottom" 
+																			headerText="">
+																			<StandardListItem id="eccsys" title="System Errors" type="Active" 
+					
+						press="onOpenECCSystemDialog"
+																				info="{ECC>/d/DimensionHeight}"
+																				infoState="Warning" />
+																			<StandardListItem id="eccapp" title="App Errors"  type="Active"
+					
+						press="onOpenECCAppDialog"
+																				info="{ECC>/d/DimensionDepth}"
+																				infoState="Warning" />
+																			<StandardListItem title="No of Threads"
+																				info="{ECC>/d/DimensionWidth}"
+																				infoState="None" />
+
+																		</List>
+
+																		<HBox>
+																			<Label class="sapUiSmallMarginBegin" text="Updated at:  "></Label>
+																		<Text
+																				text="{
+								                                                    path: 'ECC>/d/LastModified',
+							                                                    formatter: '.Formatter.formatJSONDate'}"></Text>
+																		</HBox>
+
+																	</VBox>
+
+																</f:SimpleForm>
+
+																<!-- BW -->
+																<f:SimpleForm id="bwtile" class="equalColumns1"
+																	maxContainerCols="1" title="BIW" editable="false"
+																	layout="ResponsiveLayout">
+
+																	<VBox id="bwcontainer">
+
+																		<HBox>
+																			<Text class="sapUiMediumMarginTop sapUiSmallMarginBegin"
+																				text="Queue Depth"></Text>
+																			<NumericContent
+																				class="sapUiSmallMarginBegin sapUiTinyMarginTop"
+																				value="{oBWModel>/d/results/5/WeightMeasure}"
+																				valueColor="Critical"
+																				indicator="None" withMargin="false" state="Loaded"
+																				press="onOpenBIWQueueDialog" />
+																		</HBox>
+
+																		<List class="sapUiTinyMarginBottom" 
+																			headerText="">
+
+																			<StandardListItem id="biwsys" title="System Errors" press="onOpenBIWSystemDialog" type="Active" 
+																				info="{oBWModel>/d/results/5/DimensionHeight}"
+																				infoState="Error" />
+																			<StandardListItem id="biwapp" title="App Errors" press="onOpenBIWAppDialog" type="Active" 
+																				info="{oBWModel>/d/results/5/DimensionWidth}"
+																				infoState="Warning" />
+																			<StandardListItem title="No of Threads"
+																				info="{oBWModel>/d/results/5/DimensionDepth}"
+																				infoState="Warning" />
+																		</List>
+
+																		<HBox>
+																			<Label class="sapUiTinyMarginBegin" text="Updated at:"></Label>
+																			<Text
+																				text="{
+								                                                    path: 'oBWModel>/d/results/5/LastModified',
+							                                                    formatter: '.Formatter.formatJSONDate'}"></Text>
+																		</HBox>
+																	</VBox>
+																</f:SimpleForm>
+                                                                <f:SimpleForm id="plmtile" class="equalColumns2"
+																	maxContainerCols="1" title="PLM" editable="false"
+																	layout="ResponsiveLayout">
+
+																	<VBox id="plmcontainer">
+
+																		<HBox>
+																			<Text class="sapUiMediumMarginTop sapUiSmallMarginBegin"
+																				text="Queue Depth"></Text>
+																			<NumericContent
+																				class="sapUiSmallMarginBegin sapUiTinyMarginTop"
+																				value="{oPLMModel>/d/results/2/WeightMeasure}"
+																				valueColor="Critical"
+																				indicator="None" withMargin="false" state="Loaded"
+																				press="onOpenBIWQueueDialog" />
+																		</HBox>
+
+																		<List class="sapUiTinyMarginBottom" 
+																			headerText="">
+
+																			<StandardListItem id="plmsys" title="System Errors" press="onOpenBIWSystemDialog" type="Active" 
+																				info="{oPLMModel>/d/results/2/DimensionHeight}"
+																				infoState="Error" />
+																			<StandardListItem id="plmapp" title="App Errors" press="onOpenBIWAppDialog" type="Active" 
+																				info="{oPLMModel>/d/results/2/DimensionWidth}"
+																				infoState="Warning" />
+																			<StandardListItem title="No of Threads"
+																				info="{oPLMModel>/d/results/2/DimensionDepth}"
+																				infoState="Warning" />
+																		</List>
+
+																		<HBox>
+																			<Label class="sapUiTinyMarginBegin" text="Updated at:"></Label>
+																			<Text
+																				text="{
+								                                                    path: 'oPLMModel>/d/results/2/LastModified',
+							                                                    formatter: '.Formatter.formatJSONDate'}"></Text>
+																		</HBox>
+																	</VBox>
+																</f:SimpleForm>
+															
+
+                                                </HBox>
+    
+                                                <HBox>
+                                                 <!-- <Label text="Second Row Tiles"></Label> -->
+<!-- Row 2: Aws Tile -->
+                                                 <f:SimpleForm id="awstile" class="equalColumns2"
+																	maxContainerCols="1" title="AWS" editable="false"
+																	layout="ResponsiveLayout">
+
+																	<VBox id="awscontainer">
+
+																		<HBox>
+																			<Text class="sapUiMediumMarginTop sapUiSmallMarginBegin"
+																				text="Queue Depth"></Text>
+																			<NumericContent
+																				class="sapUiSmallMarginBegin sapUiTinyMarginTop"
+																				value="{AWS>/d/results/20/WeightMeasure}"
+																				valueColor="Critical"
+																				indicator="None" withMargin="false" state="Loaded"
+																				press="onOpenBIWQueueDialog" />
+																		</HBox>
+
+																		<List class="sapUiTinyMarginBottom" 
+																			headerText="">
+
+																			<StandardListItem id="awssys" title="System Errors" press="onOpenBIWSystemDialog" type="Active" 
+																				info="{AWS>/d/results/20/DimensionHeight}"
+																				infoState="Error" />
+																			<StandardListItem id="awsapp" title="App Errors" press="onOpenBIWAppDialog" type="Active" 
+																				info="{AWS>/d/results/20/DimensionWidth}"
+																				infoState="Warning" />
+																			<StandardListItem title="No of Threads"
+																				info="{AWS>/d/results/20/DimensionDepth}"
+																				infoState="Warning" />
+																		</List>
+
+																		<HBox>
+																			<Label class="sapUiTinyMarginBegin" text="Updated at:"></Label>
+																			<Text
+																				text="{
+								                                                    path: 'AWS>/d/results/20/LastModified',
+							                                                    formatter: '.Formatter.formatJSONDate'}"></Text>
+																		</HBox>
+																	</VBox>
+																</f:SimpleForm>
+
+
+                                                                <!-- salesforce tile -->
+                                                                                     <f:SimpleForm id="sftile" class="equalColumns1"
+																	maxContainerCols="1" title="Salesforce" editable="false"
+																	layout="ResponsiveLayout">
+
+																	<VBox id="sfcontainer">
+
+																		<HBox>
+																			<Text class="sapUiMediumMarginTop sapUiSmallMarginBegin"
+																				text="Queue Depth"></Text>
+																			<NumericContent
+																				class="sapUiSmallMarginBegin sapUiTinyMarginTop"
+																				value="{SF>/d/results/21/WeightMeasure}"
+																				valueColor="Critical"
+																				indicator="None" withMargin="false" state="Loaded"
+																				press="onOpenBIWQueueDialog" />
+																		</HBox>
+
+																		<List class="sapUiTinyMarginBottom" 
+																			headerText="">
+
+																			<StandardListItem id="sfsys" title="System Errors" press="onOpenBIWSystemDialog" type="Active" 
+																				info="{SF>/d/results/21/DimensionHeight}"
+																				infoState="Error" />
+																			<StandardListItem id="sfapp" title="App Errors" press="onOpenBIWAppDialog" type="Active" 
+																				info="{SF>/d/results/21/DimensionWidth}"
+																				infoState="Warning" />
+																			<StandardListItem title="No of Threads"
+																				info="{SF>/d/results/21/DimensionDepth}"
+																				infoState="Warning" />
+																		</List>
+
+																		<HBox>
+																			<Label class="sapUiTinyMarginBegin" text="Updated at:"></Label>
+																			<Text
+																				text="{
+								                                                    path: 'SF>/d/results/21/LastModified',
+							                                                    formatter: '.Formatter.formatJSONDate'}"></Text>
+																		</HBox>
+																	</VBox>
+																</f:SimpleForm>
+
+                                                                <!-- workday -->
+                                                                                     <f:SimpleForm id="wdtile" class="equalColumns2"
+																	maxContainerCols="1" title="WorkDay" editable="false"
+																	layout="ResponsiveLayout">
+
+																	<VBox id="wdcontainer">
+
+																		<HBox>
+																			<Text class="sapUiMediumMarginTop sapUiSmallMarginBegin"
+																				text="Queue Depth"></Text>
+																			<NumericContent
+																				class="sapUiSmallMarginBegin sapUiTinyMarginTop"
+																				value="{WD>/d/WeightMeasure}"
+																				valueColor="Critical"
+																				indicator="None" withMargin="false" state="Loaded"
+																				press="onOpenBIWQueueDialog" />
+																		</HBox>
+
+																		<List class="sapUiTinyMarginBottom" 
+																			headerText="">
+
+																			<StandardListItem id="wdsys" title="System Errors" press="onOpenBIWSystemDialog" type="Active" 
+																				info="{WD>/d/DimensionHeight}"
+																				infoState="Error" />
+																			<StandardListItem id="wdapp" title="App Errors" press="onOpenBIWAppDialog" type="Active" 
+																				info="{WD>/d/DimensionWidth}"
+																				infoState="Warning" />
+																			<StandardListItem title="No of Threads"
+																				info="{WD>/d/DimensionDepth}"
+																				infoState="Warning" />
+																		</List>
+
+																		<HBox>
+																			<Label class="sapUiTinyMarginBegin" text="Updated at:"></Label>
+																			<Text
+																				text="{
+								                                                    path: 'WD>/d/LastModified',
+							                                                    formatter: '.Formatter.formatJSONDate'}"></Text>
+																		</HBox>
+																	</VBox>
+																</f:SimpleForm>
+
+                                                                <!-- sucessfactors -->
+                                                                                     <f:SimpleForm id="sapsftile" class="equalColumns1"
+																	maxContainerCols="1" title="SuccessFactors" editable="false"
+																	layout="ResponsiveLayout">
+
+																	<VBox id="sapsfcontainer">
+
+																		<HBox>
+																			<Text class="sapUiMediumMarginTop sapUiSmallMarginBegin"
+																				text="Queue Depth"></Text>
+																			<NumericContent
+																				class="sapUiSmallMarginBegin sapUiTinyMarginTop"
+																				value="{SFC>/d/results/24/WeightMeasure}"
+																				valueColor="Critical"
+																				indicator="None" withMargin="false" state="Loaded"
+																				press="onOpenBIWQueueDialog" />
+																		</HBox>
+
+																		<List class="sapUiTinyMarginBottom" 
+																			headerText="">
+
+																			<StandardListItem id="sapsfsys" title="System Errors" press="onOpenBIWSystemDialog" type="Active" 
+																				info="{SFC>/d/results/24/DimensionHeight}"
+																				infoState="Error" />
+																			<StandardListItem id="sapsfapp" title="App Errors" press="onOpenBIWAppDialog" type="Active" 
+																				info="{SFC>/d/results/24/DimensionWidth}"
+																				infoState="Warning" />
+																			<StandardListItem title="No of Threads"
+																				info="{SFC>/d/results/24/DimensionDepth}"
+																				infoState="Warning" />
+																		</List>
+
+																		<HBox>
+																			<Label class="sapUiTinyMarginBegin" text="Updated at:"></Label>
+																			<Text
+																				text="{
+								                                                    path: 'SFC>/d/results/24/LastModified',
+							                                                    formatter: '.Formatter.formatJSONDate'}"></Text>
+																		</HBox>
+																	</VBox>
+																</f:SimpleForm>
+                                                </HBox>
+                                                
+                                                
+                                                
+                                                </VBox>
+             </HBox>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			</IconTabFilter>
+			<IconTabFilter
+				icon="sap-icon://attachment"
+				key="attachments"
+				text="attachments"
+				>
+				
+			</IconTabFilter>
+			<IconTabFilter
+				icon="sap-icon://notes"
+				key="notes"
+				text="Notes"
+				>
+			
+			</IconTabFilter>
+			<IconTabFilter icon="sap-icon://group" key="analytics" text="analytics">
+		
+			</IconTabFilter>
+		</items>
+	</IconTabBar>
+						
+						</HBox>
+						 <HBox> 
+						 
+						 
+						 </HBox>
+
+              
+                     </VBox>
+					
+					</content>
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>
